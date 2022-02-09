@@ -1,7 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;1,100&family=Rowdies&display=swap');
 
+body{
+    background: #001524;
+    font-family: 'Roboto', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6{
+    font-family: 'Rowdies', cursive;
+}
 
 .contenedor{
-    width: 350px;
+    width: 380px;
     background: #e8e8e8;
     border-radius: 25px;
     position: absolute;
@@ -9,6 +18,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 10px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
 }
 
 .top{
@@ -20,6 +30,7 @@
 
 .img__container{
     background: #d7d7d7;
+    padding: 10px;
 }
 
 .img__container img{
@@ -28,9 +39,14 @@
 
 .carrito{
     background: violet;
-    padding: 10px;
     border-radius: 25px;
     cursor: pointer;
+}
+
+.numeroCarrito{
+    background: rgb(255, 76, 76);
+    padding: 5px;
+    border-radius: 25px;
 }
 
 .checkout{
@@ -43,4 +59,33 @@
 
 .element__container{
     display: flex;
+    padding: 10px;
+}
+
+.counter__container{
+    background: rgb(181, 255, 181);
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    padding: 10px;
+}
+
+.mas{
+    background: green;
+    border-radius: 25px;
+    color: #fff;
+}
+
+.menos{
+    background: red;
+    border-radius: 25px;
+}
+
+.element__data{
+    padding: 10px;
+    text-align: center;
+}
+
+.placehold__number{
+    padding: 10px;
 }
