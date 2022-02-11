@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;1,100&family=Rowdies&display=swap');
 
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body{
     background: #001524;
     font-family: 'Roboto', sans-serif;
@@ -22,8 +28,6 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .top{
-    background: #b5b5b5;
-    color: #fff;
     display: flex;
     justify-content: space-around;
 }
@@ -38,7 +42,6 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .carrito{
-    background: violet;
     border-radius: 25px;
     cursor: pointer;
 }
@@ -63,7 +66,6 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .counter__container{
-    background: rgb(181, 255, 181);
     justify-content: center;
     align-items: center;
     display: flex;
@@ -83,7 +85,7 @@ h1, h2, h3, h4, h5, h6{
 
 .element__data{
     padding: 10px;
-    text-align: center;
+    background: red;
 }
 
 .placehold__number{
