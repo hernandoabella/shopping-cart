@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;1,100&family=Rowdies&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300&family=Poppins:wght@700&display=swap');
 
 :root{
     --color-fondo: #0077b6;
-    --fuenteTitulo: 'Rowdies', cursive;
-    --fuenteTexto: 'Roboto', sans-serif;
+    --fuenteTitulo: 'Poppins', sans-serif;
+    --fuenteTexto: 'Lato', sans-serif;
 }
 
 *{
@@ -19,6 +19,7 @@ body{
 
 h1, h2, h3, h4, h5, h6{
     font-family: var(--fuenteTitulo);
+    color: rgb(28, 102, 75);
 }
 
 .contenedor{
@@ -40,14 +41,13 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .img__container{
-    background: #d7d7d7;
-    padding: 10px;
-    border-radius: 25px;
+    border-radius: 25%;
 }
 
 .img__container img{
     width: 100px;
-    border-radius: 25px;
+    height: 100px;
+    border-radius: 100%;
 }
 
 .carrito{
@@ -75,6 +75,7 @@ h1, h2, h3, h4, h5, h6{
     background: #d7d7d7;
     border-radius: 25px;
     margin: 10px 0px;
+    align-items: center;
 }
 
 .counter__container{
@@ -97,7 +98,7 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .menos{
-    background: rgb(237, 27, 16);
+    background: rgb(255, 76, 76);
 }
 
 .element__data{
@@ -106,4 +107,8 @@ h1, h2, h3, h4, h5, h6{
 
 .placehold__number{
     padding: 10px;
+}
+
+.precio{
+    margin: 10px 0px;
 }
