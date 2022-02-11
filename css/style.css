@@ -7,7 +7,7 @@
 }
 
 body{
-    background: #001524;
+    background: #0077b6;
     font-family: 'Roboto', sans-serif;
 }
 
@@ -72,19 +72,19 @@ h1, h2, h3, h4, h5, h6{
     padding: 10px;
 }
 
-.mas{
-    background: green;
+.counter__container button{
     border-radius: 25px;
     color: #fff;
     padding: 10px;
     width: 40px;
 }
 
+.mas{
+    background: green;
+}
+
 .menos{
     background: red;
-    border-radius: 25px;
-    padding: 10px;
-    width: 40px;
 }
 
 .element__data{
