@@ -7,16 +7,24 @@ let precio = document.querySelector('.precio');
 let counter = document.querySelector('.placehold__number');
 
 const mas = () => {
-    +numeroCarrito.innerHTML ++;
+    +numeroCarrito.innerHTML++;
+    +counter.innerHTML++;
 }
 
 const menos = () => {
-    counter.innerHTML--;
+    +numeroCarrito.innerHTML--;
+    +counter.innerHTML--;
 }
 
 const checkout = () => {
 
 }
+
+// const lessthanZero = (numero) => {
+//     if(numero <= 0){
+//         return 0;
+//     }
+// }
 
 btnPlus.addEventListener('click', mas)
 btnLess.addEventListener('click', menos)
