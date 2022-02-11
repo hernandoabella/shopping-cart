@@ -76,11 +76,15 @@ h1, h2, h3, h4, h5, h6{
     background: green;
     border-radius: 25px;
     color: #fff;
+    padding: 10px;
+    width: 40px;
 }
 
 .menos{
     background: red;
     border-radius: 25px;
+    padding: 10px;
+    width: 40px;
 }
 
 .element__data{
