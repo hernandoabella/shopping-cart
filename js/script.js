@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // variables
 
 let numeroCarrito = document.querySelector('.numeroCarrito');
@@ -28,3 +29,6 @@ const checkout = () => {
 
 btnPlus.addEventListener('click', mas)
 btnLess.addEventListener('click', menos)
+=======
+alert("prueba js")
+>>>>>>> a08b5d1e30d085d955f70ad054d1aa03dd426dd9
