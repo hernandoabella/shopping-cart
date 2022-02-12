@@ -2,13 +2,25 @@
 
 Descripción
 
+## Características principales 
+
+- darkmode toggle button
+- friendly interface
+- awesome colors
+
 ### Construido con 🛠️
 
 * HTML
 * CSS
 * JAVASCRIPT
 
-### Licencia 📄
+### Referencias del proyecto:
+
+- addeventlistener()
+- let
+- arrow function
+
+## Licencia 📄
 
 Este proyecto está bajo la Licencia (MIT) - mira el archivo [LICENSE.md](LICENSE.md) para más detalles.
 
