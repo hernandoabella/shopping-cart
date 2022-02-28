@@ -4,9 +4,9 @@ Descripción
 
 ## Características principales 
 
-- darkmode toggle button
-- friendly interface
-- awesome colors
+- Modo claro / modo oscuro
+- Interfaz amigable
+- Colores asombrosos
 
 ### Construido con 🛠️
 
