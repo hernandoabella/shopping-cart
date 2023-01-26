@@ -19,7 +19,7 @@ body{
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
     border-radius: 10px;
 }
 
@@ -34,11 +34,11 @@ body{
 #choices img {
     background: rgb(231, 231, 231);
     width: 50px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    padding: 5px;
+    margin: 5px;
     border-radius: 10px;
     cursor: pointer;
+    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
+    line-height: 0;
 }
 
 #breakfast, #lunch, #dinner, #sweet, #drink {
@@ -46,6 +46,7 @@ body{
 }
 
 #carrito {
+    background-color: #fefefe;
     position: absolute;
     width: 320px;
     background: #fff;
@@ -81,6 +82,7 @@ body{
   /* Modal Content/Box */
   .modal-content {
     background-color: #fefefe;
+    height: 100%;
   }
   
   /* The Close Button */
@@ -97,3 +99,24 @@ body{
     text-decoration: none;
     cursor: pointer;
   }
+
+.btns {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.btns input{
+    background: rgb(235, 235, 235);
+    margin-right: 10px;
+    border-radius: 5px;
+    border: 1px solid gray;
+    cursor: pointer;
+    padding: 5px;
+}
+
+#total {
+    margin-bottom: 10px;
+    font-weight: bold;
+}

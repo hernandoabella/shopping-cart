@@ -12,6 +12,7 @@
     <div class="container">
 
         <h2>Carrito de Supermercado</h2>
+        <div id="total">Total: $0.00</div>
         <div id="choices">
             <div>
                 <div><img src="./images/egg.png" alt="Egg" id="egg" /></div>
@@ -43,16 +44,12 @@
             </div>    
         </div>
 
-        <div id="btns">
+        <div class="btns">
             <div>
                 <input type="button" value="Ver carrito" id="myBtn"/>
                 <input type="button" value="Vaciar carrito" onclick="clearList()" />
-                <input type="button" value="Total" onclick="calculatePrice()" />
             </div>
-            <div id="total"></div>
         </div>
-
-        
 
 
         <!-- The Modal -->

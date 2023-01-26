@@ -51,119 +51,92 @@ let sweetIdx = 0;
    */
 
 function setAttributes() {
-  let unassigned = document.getElementsByTagName("img");
-  for (i = 0; i < unassigned.length; i++) {
-    unassigned[i].onclick = function () { addItem(this); };
-  }
-} setAttributes();
+  const images = document.querySelectorAll("img");
+  images.forEach(img => {
+  img.addEventListener("click", function() {
+    addItem(this);
+    calculatePrice()
+  });
+  });
+}
+setAttributes();
 
 // devuelve el precio de un artículo según la identificación de la imagen
 
 function getPrice(obj) {
   let id = obj.id;
-  for (i in price) {
-    if (i == id) {
-      return price[i];
-    }
-  }
-};
+  return price[id] || 0;
+}
 
 // devuelve la categoría de un artículo según la identificación de la imagen
 
 function getCategory(obj) {
   let id = obj.id;
-  for (i in cats) {
-    for (j = 0; j < cats[i].length; j++) {
-      if (id == cats[i][j]) {
-        return i;
-      }
+  for (const [category, categoryIds] of Object.entries(cats)) {
+    if (categoryIds.includes(id)) {
+      return category;
     }
   }
-};
+}
 
 // calcula el precio total de todos los artículos en cada div categoría 
 
 function calculatePrice() {
+  const totalDiv = document.getElementById("total");
   let total = 0;
-  for (i in cats) {
-    let div = document.getElementById(i);
-    let nodes = div.childNodes;
-    for (j = 0; j < nodes.length; j++) {
-      total += parseFloat(nodes[j].getAttribute("price"));
-    }
-  }
-  let parseTotal = total.toFixed(2);
-  let totalDiv = document.getElementById("total");
-  totalDiv.innerHTML = "Total: $" + parseTotal;
-}
 
-// borra la salida de calculatePrice () y la reemplaza con un espacio que no se rompe
+  for (const category in cats) {
+    const div = document.getElementById(category);
+    if (!div) continue;
 
-function clearTotal() {
-  let div = document.getElementById("total");
-  if (div.innerHTML != "") {
-    div.innerHTML = "&nbsp";
+    const prices = [...div.querySelectorAll('[price]')].map(node => parseFloat(node.getAttribute('price')));
+    total += prices.reduce((acc, price) => acc + price, 0);
   }
+
+  totalDiv.innerHTML = `Total: $${total.toFixed(2)}`;
 }
 
 // borra cada div de categoría y restablece el índice de cada categoría a 0
 
 function clearList() {
-  for (i in cats) {
-    let div = document.getElementById(i)
-    while (div.hasChildNodes()) {
-      let nodes = div.childNodes;
-      div.removeChild(nodes[0]);
+  for (const category in cats) {
+    const div = document.getElementById(category);
+    if (!div) continue;
+
+    while (div.firstChild) {
+      div.removeChild(div.firstChild);
     }
   }
+
   drinkIdx = 0;
   breakfastIdx = 0;
   lunchIdx = 0;
   dinnerIdx = 0;
   sweetIdx = 0;
-  clearTotal();
+
+  
 }
 
 // borra una columna de categorías, restablece ese índice a 0 y borra el precio total (si está presente)
 
 function clearColumn(obj) {
-  let cat = obj.nextElementSibling.id;
-  let div = document.getElementById(cat);
-  while (div.hasChildNodes()) {
-    div.removeChild(div.childNodes[0]);
+  const cat = obj.nextElementSibling.id;
+  const div = document.getElementById(cat);
+  while (div.firstChild) {
+    div.removeChild(div.firstChild);
   }
-  switch (cat) {
-    case "drink":
-      if (drinkIdx > 0) {
-        clearTotal();
-      }
-      drinkIdx = 0;
-      break;
-    case "breakfast":
-      if (breakfastIdx > 0) {
-        clearTotal();
-      }
-      breakfastIdx = 0;
-      break;
-    case "lunch":
-      if (lunchIdx > 0) {
-        clearTotal();
-      }
-      lunchIdx = 0;
-      break;
-    case "dinner":
-      if (dinnerIdx > 0) {
-        clearTotal();
-      }
-      dinnerIdx = 0;
-      break;
-    case "sweet":
-      if (sweetIdx > 0) {
-        clearTotal();
-      }
-      sweetIdx = 0;
-      break;
+  if (cat === 'drink') {
+    drinkIdx = 0;
+  } else if (cat === 'breakfast') {
+    breakfastIdx = 0;
+  } else if (cat === 'lunch') {
+    lunchIdx = 0;
+  } else if (cat === 'dinner') {
+    dinnerIdx = 0;
+  } else if (cat === 'sweet') {
+    sweetIdx = 0;
   }
+  
 }
 
 /* borra el contenido de una sola celda.
@@ -174,12 +147,12 @@ function clearColumn(obj) {
    */
 
 function clearCell(obj, category, price) {
-  let idx = obj.tabIndex;
-  let div = document.getElementById(category);
-  let nodes = div.childNodes;
-  let itemP = nodes[idx].getAttribute("price");
-  let n = itemP / price;
-  for (i = 0; i < n - 1; i++) {
+  const idx = obj.tabIndex;
+  const div = document.getElementById(category);
+  const nodes = div.childNodes;
+  const itemP = parseFloat(nodes[idx].getAttribute("price"));
+  const n = itemP / price;
+  for (let i = 1; i < n; i++) {
     deleteItem(obj, category, price);
   }
 }
@@ -187,7 +160,7 @@ function clearCell(obj, category, price) {
 // agrega la imagen de un elemento en una categoría div en función de la identificación de la imagen
 
 function addItem(obj) {
-  let idx; //used to idicate what position an item is in a column
+  let idx; 
   let category = getCategory(obj);
   let div = document.getElementById(category);
 
@@ -209,8 +182,6 @@ function addItem(obj) {
       break;
   }
 
-  // determina si la siguiente entrada de imagen es una copia de una imagen anterior
-
   var stack = false;
   if (idx > 0) {
     var srcImg = 'url("' + obj.src + '")';
@@ -221,16 +192,6 @@ function addItem(obj) {
       }
     }
   }
-
-  /* si no hay pilas
-     * la imagen se agrega a un nuevo div como imagen de fondo
-     * el uso de la imagen de fondo permite la superposición de texto
-     * se establecen nuevos atributos div, así como información superpuesta
-     *
-     * si la imagen es una pila
-     * primero se recupera el índice de imágenes
-     * luego se actualiza la información de superposición
-     */
 
   if (!stack) {
     let newDiv = document.createElement("div");
@@ -254,7 +215,6 @@ function addItem(obj) {
     let icono = document.createElement("i");
 
     icono.setAttribute("class", "fas fa-times");
-
     icono.onclick = function () { clearCell(newDiv, category, getPrice(obj)); };
     inputDiv.setAttribute("class", "fixer")
     inputDiv.appendChild(icono);
@@ -300,11 +260,11 @@ function addItem(obj) {
     dollar.innerHTML = "$" + amount.toFixed(2);
     node.setAttribute("price", itemP + getPrice(obj));
   }
-  clearTotal();
+  
 };
 
 
- /* detecta un elemento de la columna
+/* detecta un elemento de la columna
    * si el artículo está apilado (es decir, su atributo de precio es mayor que el precio del artículo)
    * entonces la función disminuye el precio por el precio del artículo hasta que el precio base permanece
    * 
@@ -354,31 +314,22 @@ function deleteItem(obj, category, price) {
         break;
     }
   }
-  clearTotal();
+  
 };
 
-// Get the modal
+// modal
+function toggleModal() {
+  modal.style.display = modal.style.display === "block" ? "none" : "block";
+}
+
 var modal = document.getElementById("myModal");
-
-// Get the button that opens the modal
 var btn = document.getElementById("myBtn");
-
-// Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
-// When the user clicks the button, open the modal 
-btn.onclick = function() {
-  modal.style.display = "block";
-}
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  modal.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
+btn.onclick = toggleModal;
+span.onclick = toggleModal;
 window.onclick = function(event) {
   if (event.target == modal) {
-    modal.style.display = "none";
+    toggleModal();
   }
 }
