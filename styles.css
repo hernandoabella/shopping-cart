@@ -33,12 +33,19 @@ body{
 
 #choices img {
     background: rgb(231, 231, 231);
-    width: 50px;
-    margin: 5px;
+    width: 58px;
+    margin-right: 15px;
+    margin-bottom: 15px;
     border-radius: 10px;
     cursor: pointer;
-    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
     line-height: 0;
+    transition: .3s;
+}
+
+#choices img:hover {
+    transform: scale(1.3);
+    border-radius: 25px;
+    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
 }
 
 #breakfast, #lunch, #dinner, #sweet, #drink {
@@ -59,13 +66,34 @@ body{
     border-radius: 10px;
 }
 
+div > .fix{
+    margin: 10px;
+}
+
 .fix {
     background: rgb(231, 231, 231);
-    width: 50px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    padding: 5px;
     border-radius: 10px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.fix:hover {
+    opacity: .8;
+    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
+    transform: scale(1.2);
+}
+
+.cantidad {
+    background: #333;
+    color: #fff;
+    border-radius: 10px;
+    text-align: center;
+    width: 20px;
+    font-size: 14px;
+    position: relative;
+    left: -5px;
+    top: -5px;
+    user-select: none;
 }
 
 /* The Modal (background) */
@@ -77,8 +105,8 @@ body{
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
-  }
-  
+}
+
   /* Modal Content/Box */
   .modal-content {
     background-color: #fefefe;
@@ -88,9 +116,12 @@ body{
   /* The Close Button */
   .close {
     color: #aaa;
-    float: right;
     font-size: 28px;
     font-weight: bold;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    transition: .3s;
   }
   
   .close:hover,
@@ -104,19 +135,38 @@ body{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .btns input{
     background: rgb(235, 235, 235);
     margin-right: 10px;
     border-radius: 5px;
-    border: 1px solid gray;
+    border: 1px solid rgb(166, 166, 166);
     cursor: pointer;
     padding: 5px;
+    text-align: center;
 }
 
 #total {
     margin-bottom: 10px;
     font-weight: bold;
+}
+
+.items span {
+    display: block;
+    margin-bottom: 6px;
+}
+
+.dolar {
+    background: #FF3562;
+    color: #fff;
+    position: relative;
+    font-size: 14px;
+    padding: 2px;
+    right: 0px;
+    bottom: -35px;
+    border-radius: 0px 0px 10px 10px;
+    text-align: center;
+    user-select: none;
 }

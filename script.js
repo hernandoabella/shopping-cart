@@ -80,7 +80,6 @@ function getCategory(obj) {
 }
 
 // calcula el precio total de todos los artículos en cada div categoría 
-
 function calculatePrice() {
   const totalDiv = document.getElementById("total");
   let total = 0;
@@ -105,6 +104,7 @@ function clearList() {
 
     while (div.firstChild) {
       div.removeChild(div.firstChild);
+      document.getElementById("total").innerHTML = "Total: $0.00";
     }
   }
 
@@ -199,17 +199,19 @@ function addItem(obj) {
     newDiv.style.backgroundImage = "url(" + obj.src + ")";
     newDiv.style.backgroundSize = "100px 100px";
     newDiv.style.backgroundRepeat = "no-repeat";
+    newDiv.style.width = "300px";
+    newDiv.style.height = "70px";
     newDiv.setAttribute("price", getPrice(obj));
     newDiv.tabIndex = idx;
     newDiv.onclick = function () { deleteItem(this, category, getPrice(obj)); };
 
     let text = document.createElement("div");
     text.innerHTML = "x1";
-    text.setAttribute("class", "fixed")
+    text.setAttribute("class", "fixed cantidad")
 
     let dollar = document.createElement("div");
     dollar.innerHTML = "$" + getPrice(obj).toFixed(2);
-    dollar.setAttribute("class", "fixed")
+    dollar.setAttribute("class", "fixed dolar")
 
     let inputDiv = document.createElement("div");
     let icono = document.createElement("i");
@@ -217,7 +219,7 @@ function addItem(obj) {
     icono.setAttribute("class", "fas fa-times");
     icono.onclick = function () { clearCell(newDiv, category, getPrice(obj)); };
     inputDiv.setAttribute("class", "fixer")
-    inputDiv.appendChild(icono);
+  
     newDiv.appendChild(text);
     newDiv.appendChild(dollar);
     newDiv.appendChild(inputDiv);
@@ -273,49 +275,44 @@ function addItem(obj) {
    * y actualiza el tabIndex para cada imagen
    */
 
+function updateItem(count, dollar, price) {
+  let num = parseInt(count.innerHTML.substr(1, count.innerHTML.length)) - 1;
+  let amount = parseFloat(dollar.innerHTML.substr(1, dollar.innerHTML.length));
+  amount -= price;
+  count.innerHTML = "x" + num;
+  dollar.innerHTML = "$" + amount.toFixed(2);
+}
+
+function deleteItemNode(div, nodes, idx, category, indexVariables) {
+  div.removeChild(nodes[idx]);
+  for (i = idx; i < nodes.length; i++) {
+      nodes[i].tabIndex = i;
+  }
+  indexVariables[category]--;
+}
+
 function deleteItem(obj, category, price) {
   let idx = obj.tabIndex;
   let div = document.getElementById(category);
   let nodes = div.childNodes;
   let itemP = parseFloat(nodes[idx].getAttribute("price")).toFixed(2);
-
-  if (itemP > price) {
-    nodes[idx].setAttribute("price", itemP - price);
-    let count = nodes[idx].firstElementChild;
-    let dollar = count.nextElementSibling;
-
-    let num = parseInt(count.innerHTML.substr(1, count.innerHTML.length)) - 1;
-    let amount = parseFloat(dollar.innerHTML.substr(1, dollar.innerHTML.length));
-    amount -= price;
-
-    count.innerHTML = "x" + num;
-    dollar.innerHTML = "$" + amount.toFixed(2);
-  } else {
-    div.removeChild(nodes[idx])
-    for (i = idx; i < nodes.length; i++) {
-      nodes[i].tabIndex = i;
-    }
-
-    switch (category) {
-      case "drink":
-        drinkIdx--;
-        break;
-      case "breakfast":
-        breakfastIdx--;
-        break;
-      case "lunch":
-        lunchIdx--;
-        break;
-      case "dinner":
-        dinnerIdx--;
-        break;
-      case "sweet":
-        sweetIdx--;
-        break;
-    }
+  const indexVariables = {
+      drink: drinkIdx,
+      breakfast: breakfastIdx,
+      lunch: lunchIdx,
+      dinner: dinnerIdx,
+      sweet: sweetIdx
   }
-  
+  if (itemP > price) {
+      nodes[idx].setAttribute("price", itemP - price);
+      let count = nodes[idx].firstElementChild;
+      let dollar = count.nextElementSibling;
+      updateItem(count, dollar, price);
+  } else {
+      deleteItemNode(div, nodes, idx, category, indexVariables);
+  }
 };
+
 
 // modal
 function toggleModal() {
