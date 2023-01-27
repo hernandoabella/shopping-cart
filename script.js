@@ -139,23 +139,31 @@ function clearColumn(obj) {
   
 }
 
-/* borra el contenido de una sola celda.
-   * porque el botón de borrar se superpone en la parte superior de la imagen del artículo
-   * hacer clic en el botón da como resultado dos llamadas
-   * 1) clearCell (...) elimina la "pila" de imágenes (realmente reduce el atributo de precio)
-   * 2) deleteItem (...) elimina la imagen real de la columna
-   */
+/* 
+  * borra el contenido de una sola celda.
+  * porque el botón de borrar se superpone en la parte superior de la imagen del artículo
+  * hacer clic en el botón da como resultado dos llamadas
+  * 1) clearCell (...) elimina la "pila" de imágenes (realmente reduce el atributo de precio)
+  * 2) deleteItem (...) elimina la imagen real de la columna
+  */
 
 function clearCell(obj, category, price) {
+  // obtiene el índice de la celda
   const idx = obj.tabIndex;
+  // obtiene el elemento div con el id especificado en la categoría
   const div = document.getElementById(category);
+  // obtiene los nodos dentro del div
   const nodes = div.childNodes;
+  // obtiene el precio del elemento seleccionado
   const itemP = parseFloat(nodes[idx].getAttribute("price"));
+  // calcula el número de veces que el precio del elemento aparece
   const n = itemP / price;
+  // elimina la cantidad correcta de elementos
   for (let i = 1; i < n; i++) {
     deleteItem(obj, category, price);
   }
 }
+
 
 // agrega la imagen de un elemento en una categoría div en función de la identificación de la imagen
 

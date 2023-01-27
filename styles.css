@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Glory:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Glory', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 body{
@@ -27,6 +27,7 @@ body{
 
 .container h2 {
     margin-bottom: 20px;
+    user-select: none;
 }
 
 #choices {
@@ -79,20 +80,15 @@ div > .fix{
 
 .fix {
     background: rgb(231, 231, 231);
-    border-radius: 10px;
     cursor: pointer;
     transition: .3s;
     border: 1px solid rgb(207, 206, 206);
+    border-radius: 12px;
 }
 
 .fix:hover {
     box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
     transform: scale(1.2);
-}
-
-.quantity {
-    background: rgb(101, 100, 100);
-    color: #fff;
 }
 
 .cantidad {
@@ -120,14 +116,14 @@ div > .fix{
     
 }
 
-  /* Modal Content/Box */
-  .modal-content {
+/* Modal Content/Box */
+.modal-content {
     background-color: #fefefe;
     height: 100%;
-  }
-  
-  /* The Close Button */
-  .close {
+}
+
+/* The Close Button */
+.close {
     color: #aaa;
     font-size: 28px;
     font-weight: bold;
@@ -135,14 +131,15 @@ div > .fix{
     right: 20px;
     top: 19px;
     transition: .3s;
-  }
-  
-  .close:hover,
-  .close:focus {
+    user-select: none;
+}
+
+.close:hover,
+.close:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
-  }
+}
 
 .btns {
     display: grid;
@@ -176,6 +173,7 @@ div > .fix{
     font-weight: bold;
     display: flex;
     align-items: center;
+    font-size: 14px;
 }
 
 .items {
@@ -189,14 +187,15 @@ div > .fix{
 }
 
 .dolar {
-    background: rgb(240, 240, 240);
+    background: rgba(210, 210, 210, 0.5);
     color: rgb(72, 72, 72);
     font-weight: bold;
     position: relative;
     font-size: 14px;
     right: 0px;
-    bottom: -37px;
-    border-radius: 0px 0px 10px 10px;
+    bottom: -27px;
     text-align: center;
     user-select: none;
+    padding: 5px;
+    border-radius: 0px 0px 10px 10px;
 }
