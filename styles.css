@@ -36,7 +36,6 @@ img {
 
 #choices {
     display: flex;
-    height: 410px;
 }
 
 #choices img {
@@ -194,7 +193,7 @@ div > .fix{
 }
 
 .dolar {
-    background: rgba(210, 210, 210, 0.1);
+    background: rgba(210, 210, 210, 0.8);
     color: rgb(72, 72, 72);
     font-weight: bold;
     position: relative;

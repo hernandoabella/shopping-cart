@@ -1,5 +1,4 @@
 // Define los precios de cada artículo
-
 const price = {
   egg: 2.00,
   muffin: 1.75,
@@ -134,48 +133,29 @@ function calculatePriceAfterRemoval(removedPrice) {
 }
 
 
-// borra cada div de categoría y restablece el índice de cada categoría a 0
-
+// Removes every category div and resets each category index to 0
 function clearList() {
+  // Iterate through each category in cats object
   for (const category in cats) {
-    const div = document.getElementById(category);
-    if (!div) continue;
+  // Get the div element corresponding to the current category
+  const div = document.getElementById(category);
+  // If the div is not found, continue to the next iteration
+  if (!div) continue;
 
-    while (div.firstChild) {
-      div.removeChild(div.firstChild);
-      document.getElementById("total").innerHTML = "Total: $0.00";
-    }
+  // Remove all children of the div
+  while (div.firstChild) {
+    div.removeChild(div.firstChild);
   }
+  // Reset the total cost to $0.00
+  document.getElementById("total").innerHTML = "Total: $0.00";
+}
 
+  // Reset all category indexes to 0
   drinkIdx = 0;
   breakfastIdx = 0;
   lunchIdx = 0;
   dinnerIdx = 0;
   sweetIdx = 0;
-
-  
-}
-
-// borra una columna de categorías, restablece ese índice a 0 y borra el precio total (si está presente)
-
-function clearColumn(obj) {
-  const cat = obj.nextElementSibling.id;
-  const div = document.getElementById(cat);
-  while (div.firstChild) {
-    div.removeChild(div.firstChild);
-  }
-  if (cat === 'drink') {
-    drinkIdx = 0;
-  } else if (cat === 'breakfast') {
-    breakfastIdx = 0;
-  } else if (cat === 'lunch') {
-    lunchIdx = 0;
-  } else if (cat === 'dinner') {
-    dinnerIdx = 0;
-  } else if (cat === 'sweet') {
-    sweetIdx = 0;
-  }
-  
 }
 
 /* 
@@ -184,8 +164,7 @@ function clearColumn(obj) {
   * hacer clic en el botón da como resultado dos llamadas
   * 1) clearCell (...) elimina la "pila" de imágenes (realmente reduce el atributo de precio)
   * 2) deleteItem (...) elimina la imagen real de la columna
-  */
-
+*/
 function clearCell(obj, category, price) {
   // obtiene el índice de la celda
   const idx = obj.tabIndex;
@@ -205,7 +184,6 @@ function clearCell(obj, category, price) {
 
 
 // agrega la imagen de un elemento en una categoría div en función de la identificación de la imagen
-
 function addItem(obj) {
   let idx; 
   let category = getCategory(obj);
@@ -333,15 +311,13 @@ function deleteItem(obj, category, price) {
     nodes[idx].setAttribute("price", itemP - price);
     let count = nodes[idx].firstElementChild;
     let dollar = count.nextElementSibling;
-
-    let num = parseInt(count.innerHTML.substr(1, count.innerHTML.length)) - 1;
-    let amount = parseFloat(dollar.innerHTML.substr(1, dollar.innerHTML.length));
+    let num = parseInt(count.textContent.substring(1)) - 1;
+    let amount = parseFloat(dollar.textContent.substring(1));
     amount -= price;
 
-    count.innerHTML = "x" + num;
-    dollar.innerHTML = "$" + amount.toFixed(2);
-    
-  } else {
+    count.textContent = "x" + num;
+    dollar.textContent = "$" + amount.toFixed(2);
+    } else {
     calculatePriceAfterRemoval(price)
     div.removeChild(nodes[idx])
     for (i = idx; i < nodes.length; i++) {
@@ -369,7 +345,7 @@ function deleteItem(obj, category, price) {
   
 };
 
-// modal
+// Caja modal
 function toggleModal() {
   modal.style.display = modal.style.display === "block" ? "none" : "block";
 }
