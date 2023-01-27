@@ -10,9 +10,8 @@
 </head>
 <body>
     <div class="container">
-
         <h2>Carrito de Supermercado</h2>
-        
+        <div id="total">Total: $0.00</div>  
         <div id="choices">
             <div>
                 <div><img src="./images/egg.png" alt="Egg" id="egg"/></div>
@@ -47,37 +46,35 @@
         <div class="btns">
             <input type="button" value="Ver Carrito" id="myBtn"/>
             <input type="button" value="Vaciar Carrito" onclick="clearList()" />
-            <div id="total">Total: $0.00</div>    
         </div>
-
 
         <!-- The Modal -->
         <div id="myModal" class="modal">
 
-        <!-- Modal content -->
-        <div class="modal-content" id="carrito">
-            <span class="close">&times;</span>
-            <div>
-                <h2>Artículos agregados</h2>
-                <div class="items">
-                    <div>
-                        <div id="breakfast"></div>
-                    </div>
-                    <div>
-                        <div id="lunch"></div>
-                    </div>
-                    <div>
-                        <div id="dinner"></div>
-                    </div>
-                    <div>
-                        <div id="sweet"></div>
-                    </div>
-                    <div>
-                        <div id="drink"></div>
+            <!-- Modal content -->
+            <div class="modal-content" id="carrito">
+                <span class="close">&times;</span>
+                <div>
+                    <h2>Artículos agregados</h2>
+                    <div class="items">
+                        <div>
+                            <div id="breakfast"></div>
+                        </div>
+                        <div>
+                            <div id="lunch"></div>
+                        </div>
+                        <div>
+                            <div id="dinner"></div>
+                        </div>
+                        <div>
+                            <div id="sweet"></div>
+                        </div>
+                        <div>
+                            <div id="drink"></div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     </div>
 

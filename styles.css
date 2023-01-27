@@ -11,6 +11,10 @@ body{
     background: #FF3562;
 }
 
+img {
+    user-select: none;
+}
+
 .container{
     width: 320px;
     height: 1000px;
@@ -84,6 +88,7 @@ div > .fix{
     transition: .3s;
     border: 1px solid rgb(207, 206, 206);
     border-radius: 12px;
+    user-select: none;
 }
 
 .fix:hover {
@@ -144,18 +149,15 @@ div > .fix{
 .btns {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    margin-top: 10px;
 }
 
 .btns input{
     background: rgb(235, 235, 235);
-    margin-right: 10px;
     border-radius: 5px;
     border: 1px solid rgb(219, 219, 219);
     cursor: pointer;
     padding: 5px;
     text-align: center;
-    font-weight: bold;
     transition: .3s;
 }
 
@@ -164,9 +166,18 @@ div > .fix{
     color: #000;
 }
 
+.btns input:nth-child(2) {
+    margin: 0px 10px;
+}
+
 .btns input:nth-child(2):hover {
     background: #f52b9a;
     color: #fff;
+}
+
+.btns input:nth-child(3):hover {
+    background: #f5ee2b;
+    color: #333;
 }
 
 #total {
@@ -174,11 +185,7 @@ div > .fix{
     display: flex;
     align-items: center;
     font-size: 14px;
-}
-
-.items {
-    background-color: rgb(240, 240, 240);
-    border-radius: 10px;
+    margin: 10px 0px;
 }
 
 .items span {
@@ -187,7 +194,7 @@ div > .fix{
 }
 
 .dolar {
-    background: rgba(210, 210, 210, 0.5);
+    background: rgba(210, 210, 210, 0.1);
     color: rgb(72, 72, 72);
     font-weight: bold;
     position: relative;

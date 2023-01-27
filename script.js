@@ -24,7 +24,6 @@ const price = {
 };
 
 // Define las categorias para cada artículo
-
 let drink = ["oj", "water", "soda", "milkshake"];
 let breakfast = ["egg", "muffin", "pancake", "biscuit"];
 let lunch = ["pbj", "bologna", "taco", "soup"];
@@ -33,67 +32,107 @@ let sweet = ["icecream", "flan", "cookie", "cupcake"];
 
 // Agrega cada categoria a un objeto ()
 // add each category to an object (used for match individual items to their categories)
-
 let cats = { drink, breakfast, lunch, dinner, sweet };
 
 /* índices para elementos agregados a divisiones de categoría
    * p.ej. si se agrega muffin después del panqueque, el muffin tendrá un índice de 1
    */
-
 let drinkIdx = 0;
 let breakfastIdx = 0;
 let lunchIdx = 0;
 let dinnerIdx = 0;
 let sweetIdx = 0;
 
-/* establece atributos de imagen que se aplican a todas las imágenes
-   * esto también ahorra algo de desorden en el HTML
-   */
-
+// Función para establecer atributos de imagen que se aplican a todas las imágenes
 function setAttributes() {
+  // Seleccionar todas las imágenes en el documento
   const images = document.querySelectorAll("img");
+  // Para cada imagen
   images.forEach(img => {
-  img.addEventListener("click", function() {
-    addItem(this);
-    calculatePrice()
-  });
+    // Agregar un evento de clic para agregar un artículo al carrito y calcular el precio total
+    img.addEventListener("click", function() {
+      addItem(this);
+      calculatePrice()
+    });
   });
 }
+// Llamar a la función para establecer los atributos de las imágenes
 setAttributes();
 
-// devuelve el precio de un artículo según la identificación de la imagen
-
+// Función para obtener el precio de un artículo según la identificación de la imagen
 function getPrice(obj) {
+  // Obtener la identificación de la imagen
   let id = obj.id;
+  // Devolver el precio del artículo según la identificación de la imagen
+  // Si no existe, devolver 0
   return price[id] || 0;
 }
 
-// devuelve la categoría de un artículo según la identificación de la imagen
-
+// Función para obtener la categoría de un artículo según la identificación de la imagen
 function getCategory(obj) {
+  // Obtener la identificación de la imagen
   let id = obj.id;
+  // Recorrer las categorías y sus identificaciones
   for (const [category, categoryIds] of Object.entries(cats)) {
+    // Si la identificación de la imagen está en la lista de identificaciones de la categoría actual
     if (categoryIds.includes(id)) {
+      // Devolver la categoría
       return category;
     }
   }
+  // Si no se encuentra la categoría, devolver null
+  return null;
 }
 
-// calcula el precio total de todos los artículos en cada div categoría 
+// Función para calcular el precio total de todos los artículos en cada categoría
 function calculatePrice() {
+  // Obtener el elemento div total
   const totalDiv = document.getElementById("total");
   let total = 0;
 
+  // Recorrer todas las categorías
   for (const category in cats) {
+    // Obtener el div de la categoría
     const div = document.getElementById(category);
+    // Si el div no existe, continuar
     if (!div) continue;
 
-    const prices = [...div.querySelectorAll('[price]')].map(node => parseFloat(node.getAttribute('price')));
+    // Obtener los precios de los elementos en el div de la categoría
+    const prices = [...div.querySelectorAll('[price]')]
+                  .map(node => parseFloat(node.getAttribute('price')));
+    // Sumar los precios
     total += prices.reduce((acc, price) => acc + price, 0);
   }
 
+  // Mostrar el total en el div
   totalDiv.innerHTML = `Total: $${total.toFixed(2)}`;
 }
+
+// Función para calcular el precio de todos los artículos en cada categoría después de eliminar productos del carrito manualmente
+function calculatePriceAfterRemoval(removedPrice) {
+  // Obtener el elemento div total
+  const totalDiv = document.getElementById("total");
+  let total = 0;
+
+  // Recorrer todas las categorías
+  for (const category in cats) {
+    // Obtener el div de la categoría
+    const div = document.getElementById(category);
+    // Si el div no existe, continuar
+    if (!div) continue;
+
+    // Obtener los precios de los elementos en el div de la categoría
+    const prices = [...div.querySelectorAll('[price]')]
+                  .map(node => parseFloat(node.getAttribute('price')));
+    // Sumar los precios
+    total += prices.reduce((acc, price) => acc + price, 0);
+  }
+
+  // Restar el precio eliminado y mostrar el nuevo total en el div
+  total -= removedPrice;
+  totalDiv.innerHTML = `Total: $${total.toFixed(2)}`;
+}
+
 
 // borra cada div de categoría y restablece el índice de cada categoría a 0
 
@@ -301,7 +340,9 @@ function deleteItem(obj, category, price) {
 
     count.innerHTML = "x" + num;
     dollar.innerHTML = "$" + amount.toFixed(2);
+    
   } else {
+    calculatePriceAfterRemoval(price)
     div.removeChild(nodes[idx])
     for (i = idx; i < nodes.length; i++) {
       nodes[i].tabIndex = i;
@@ -333,9 +374,9 @@ function toggleModal() {
   modal.style.display = modal.style.display === "block" ? "none" : "block";
 }
 
-var modal = document.getElementById("myModal");
-var btn = document.getElementById("myBtn");
-var span = document.getElementsByClassName("close")[0];
+let modal = document.getElementById("myModal");
+let btn = document.getElementById("myBtn");
+let span = document.getElementsByClassName("close")[0];
 
 btn.onclick = toggleModal;
 span.onclick = toggleModal;
