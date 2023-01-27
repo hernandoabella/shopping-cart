@@ -13,6 +13,8 @@ body{
 
 .container{
     width: 320px;
+    height: 1000px;
+    height: auto;
     background: #fff;
     padding: 20px;
     position: absolute;
@@ -29,6 +31,7 @@ body{
 
 #choices {
     display: flex;
+    height: 410px;
 }
 
 #choices img {
@@ -38,14 +41,18 @@ body{
     margin-bottom: 15px;
     border-radius: 10px;
     cursor: pointer;
-    line-height: 0;
     transition: .3s;
 }
 
 #choices img:hover {
     transform: scale(1.3);
-    border-radius: 25px;
+    border-radius: 100px;
     box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
+    background: #29e0da;
+}
+
+#choices img:active {
+    transform: scale(1);
 }
 
 #breakfast, #lunch, #dinner, #sweet, #drink {
@@ -75,16 +82,21 @@ div > .fix{
     border-radius: 10px;
     cursor: pointer;
     transition: .3s;
+    border: 1px solid rgb(207, 206, 206);
 }
 
 .fix:hover {
-    opacity: .8;
     box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
     transform: scale(1.2);
 }
 
+.quantity {
+    background: rgb(101, 100, 100);
+    color: #fff;
+}
+
 .cantidad {
-    background: #333;
+    background: rgb(101, 100, 100);
     color: #fff;
     border-radius: 10px;
     text-align: center;
@@ -105,6 +117,7 @@ div > .fix{
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
+    
 }
 
   /* Modal Content/Box */
@@ -120,7 +133,7 @@ div > .fix{
     font-weight: bold;
     position: absolute;
     right: 20px;
-    top: 20px;
+    top: 19px;
     transition: .3s;
   }
   
@@ -132,9 +145,8 @@ div > .fix{
   }
 
 .btns {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     margin-top: 10px;
 }
 
@@ -142,15 +154,33 @@ div > .fix{
     background: rgb(235, 235, 235);
     margin-right: 10px;
     border-radius: 5px;
-    border: 1px solid rgb(166, 166, 166);
+    border: 1px solid rgb(219, 219, 219);
     cursor: pointer;
     padding: 5px;
     text-align: center;
+    font-weight: bold;
+    transition: .3s;
+}
+
+.btns input:nth-child(1):hover {
+    background: #29e0da;
+    color: #000;
+}
+
+.btns input:nth-child(2):hover {
+    background: #f52b9a;
+    color: #fff;
 }
 
 #total {
-    margin-bottom: 10px;
     font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.items {
+    background-color: rgb(240, 240, 240);
+    border-radius: 10px;
 }
 
 .items span {
@@ -159,13 +189,13 @@ div > .fix{
 }
 
 .dolar {
-    background: #FF3562;
-    color: #fff;
+    background: rgb(240, 240, 240);
+    color: rgb(72, 72, 72);
+    font-weight: bold;
     position: relative;
     font-size: 14px;
-    padding: 2px;
     right: 0px;
-    bottom: -35px;
+    bottom: -37px;
     border-radius: 0px 0px 10px 10px;
     text-align: center;
     user-select: none;

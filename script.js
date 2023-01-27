@@ -266,6 +266,7 @@ function addItem(obj) {
 };
 
 
+
 /* detecta un elemento de la columna
    * si el artículo está apilado (es decir, su atributo de precio es mayor que el precio del artículo)
    * entonces la función disminuye el precio por el precio del artículo hasta que el precio base permanece
@@ -275,44 +276,49 @@ function addItem(obj) {
    * y actualiza el tabIndex para cada imagen
    */
 
-function updateItem(count, dollar, price) {
-  let num = parseInt(count.innerHTML.substr(1, count.innerHTML.length)) - 1;
-  let amount = parseFloat(dollar.innerHTML.substr(1, dollar.innerHTML.length));
-  amount -= price;
-  count.innerHTML = "x" + num;
-  dollar.innerHTML = "$" + amount.toFixed(2);
-}
-
-function deleteItemNode(div, nodes, idx, category, indexVariables) {
-  div.removeChild(nodes[idx]);
-  for (i = idx; i < nodes.length; i++) {
-      nodes[i].tabIndex = i;
-  }
-  indexVariables[category]--;
-}
-
 function deleteItem(obj, category, price) {
   let idx = obj.tabIndex;
   let div = document.getElementById(category);
   let nodes = div.childNodes;
   let itemP = parseFloat(nodes[idx].getAttribute("price")).toFixed(2);
-  const indexVariables = {
-      drink: drinkIdx,
-      breakfast: breakfastIdx,
-      lunch: lunchIdx,
-      dinner: dinnerIdx,
-      sweet: sweetIdx
-  }
-  if (itemP > price) {
-      nodes[idx].setAttribute("price", itemP - price);
-      let count = nodes[idx].firstElementChild;
-      let dollar = count.nextElementSibling;
-      updateItem(count, dollar, price);
-  } else {
-      deleteItemNode(div, nodes, idx, category, indexVariables);
-  }
-};
 
+  if (itemP > price) {
+    nodes[idx].setAttribute("price", itemP - price);
+    let count = nodes[idx].firstElementChild;
+    let dollar = count.nextElementSibling;
+
+    let num = parseInt(count.innerHTML.substr(1, count.innerHTML.length)) - 1;
+    let amount = parseFloat(dollar.innerHTML.substr(1, dollar.innerHTML.length));
+    amount -= price;
+
+    count.innerHTML = "x" + num;
+    dollar.innerHTML = "$" + amount.toFixed(2);
+  } else {
+    div.removeChild(nodes[idx])
+    for (i = idx; i < nodes.length; i++) {
+      nodes[i].tabIndex = i;
+    }
+
+    switch (category) {
+      case "drink":
+        drinkIdx--;
+        break;
+      case "breakfast":
+        breakfastIdx--;
+        break;
+      case "lunch":
+        lunchIdx--;
+        break;
+      case "dinner":
+        dinnerIdx--;
+        break;
+      case "sweet":
+        sweetIdx--;
+        break;
+    }
+  }
+  
+};
 
 // modal
 function toggleModal() {
