@@ -1,4 +1,3 @@
-// Define los precios de cada artículo
 const price = {
   egg: 2.00,
   muffin: 1.75,
@@ -21,27 +20,21 @@ const price = {
   cupcake: 1.75,
   milkshake: 3.00
 };
-
-// Define las categorias para cada artículo
-let drink = ["oj", "water", "soda", "milkshake"];
-let breakfast = ["egg", "muffin", "pancake", "biscuit"];
-let lunch = ["pbj", "bologna", "taco", "soup"];
-let dinner = ["burger", "pizza", "chicken", "salad"];
-let sweet = ["icecream", "flan", "cookie", "cupcake"];
-
-// Agrega cada categoria a un objeto ()
-// add each category to an object (used for match individual items to their categories)
-let cats = { drink, breakfast, lunch, dinner, sweet };
-
-/* índices para elementos agregados a divisiones de categoría
-   * p.ej. si se agrega muffin después del panqueque, el muffin tendrá un índice de 1
-   */
+  
+const cats = {
+    drink: ["oj", "water", "soda", "milkshake"],
+    breakfast: ["egg", "muffin", "pancake", "biscuit"],
+    lunch: ["pbj", "bologna", "taco", "soup"],
+    dinner: ["burger", "pizza", "chicken", "salad"],
+    sweet: ["icecream", "flan", "cookie", "cupcake"],
+};
+  
 let drinkIdx = 0;
 let breakfastIdx = 0;
 let lunchIdx = 0;
 let dinnerIdx = 0;
 let sweetIdx = 0;
-
+  
 // Función para establecer atributos de imagen que se aplican a todas las imágenes
 function setAttributes() {
   // Seleccionar todas las imágenes en el documento
@@ -97,10 +90,9 @@ function calculatePrice() {
     if (!div) continue;
 
     // Obtener los precios de los elementos en el div de la categoría
-    const prices = [...div.querySelectorAll('[price]')]
-                  .map(node => parseFloat(node.getAttribute('price')));
+    const prices = [...div.querySelectorAll('[price]')];
     // Sumar los precios
-    total += prices.reduce((acc, price) => acc + price, 0);
+    total += prices.reduce((acc, price) => acc + parseFloat(price.getAttribute('price')), 0);
   }
 
   // Mostrar el total en el div
@@ -182,13 +174,40 @@ function clearCell(obj, category, price) {
   }
 }
 
-
 // agrega la imagen de un elemento en una categoría div en función de la identificación de la imagen
 function addItem(obj) {
-  let idx; 
+  var { stack, idx, category, div, srcImg } = newFunction_3(obj);
+
+  if (!stack) {
+    newFunction_1(obj, idx, category, div);
+    incrementarIndiceCategoria(category);
+  } else {
+    newFunction(div, srcImg, obj);
+  }
+  
+};
+
+function newFunction_3(obj) {
+  let idx;
   let category = getCategory(obj);
   let div = document.getElementById(category);
 
+  idx = newFunction_2(category, idx);
+
+  var stack = false;
+  if (idx > 0) {
+    var srcImg = 'url("' + obj.src + '")';
+    var nodes = document.getElementById(category).childNodes;
+    for (i = 0; i < nodes.length; i++) {
+      if (nodes[i].style.backgroundImage == srcImg) {
+        stack = true;
+      }
+    }
+  }
+  return { stack, idx, category, div, srcImg };
+}
+
+function newFunction_2(category, idx) {
   switch (category) {
     case "drink":
       idx = drinkIdx;
@@ -206,158 +225,170 @@ function addItem(obj) {
       idx = sweetIdx;
       break;
   }
+  return idx;
+}
 
-  var stack = false;
-  if (idx > 0) {
-    var srcImg = 'url("' + obj.src + '")';
-    var nodes = document.getElementById(category).childNodes;
-    for (i = 0; i < nodes.length; i++) {
-      if (nodes[i].style.backgroundImage == srcImg) {
-        stack = true;
-      }
+function newFunction_1(obj, idx, category, div) {
+  let newDiv = document.createElement("div");
+  newDiv.setAttribute("class", "fix");
+  newDiv.style.backgroundImage = "url(" + obj.src + ")";
+  newDiv.style.backgroundSize = "100px 100px";
+  newDiv.style.backgroundRepeat = "no-repeat";
+  newDiv.style.width = "300px";
+  newDiv.style.height = "70px";
+  newDiv.setAttribute("price", getPrice(obj));
+  newDiv.tabIndex = idx;
+  newDiv.onclick = function () { deleteItem(this, category, getPrice(obj)); };
+
+  let text = document.createElement("div");
+  text.innerHTML = "x1";
+  text.setAttribute("class", "fixed cantidad");
+
+  let dollar = document.createElement("div");
+  dollar.innerHTML = "$" + getPrice(obj).toFixed(2);
+  dollar.setAttribute("class", "fixed dolar");
+
+  let inputDiv = document.createElement("div");
+  let icono = document.createElement("i");
+
+  icono.setAttribute("class", "fas fa-times");
+  icono.onclick = function () { clearCell(newDiv, category, getPrice(obj)); };
+  inputDiv.setAttribute("class", "fixer");
+
+  newDiv.appendChild(text);
+  newDiv.appendChild(dollar);
+  newDiv.appendChild(inputDiv);
+  div.appendChild(newDiv);
+}
+
+function newFunction(div, srcImg, obj) {
+  let index;
+  for (i = 0; i < div.childNodes.length; i++) {
+    if (div.childNodes[i].style.backgroundImage == srcImg) {
+      index = i;
     }
   }
+  let node = div.childNodes[index];
+  let itemP = parseFloat(node.getAttribute("price"));
+  let count = node.firstElementChild;
+  let num = parseInt(count.innerHTML.substr(1, count.innerHTML.length)) + 1;
 
-  if (!stack) {
-    let newDiv = document.createElement("div");
-    newDiv.setAttribute("class", "fix");
-    newDiv.style.backgroundImage = "url(" + obj.src + ")";
-    newDiv.style.backgroundSize = "100px 100px";
-    newDiv.style.backgroundRepeat = "no-repeat";
-    newDiv.style.width = "300px";
-    newDiv.style.height = "70px";
-    newDiv.setAttribute("price", getPrice(obj));
-    newDiv.tabIndex = idx;
-    newDiv.onclick = function () { deleteItem(this, category, getPrice(obj)); };
+  let dollar = count.nextElementSibling;
+  let amount = parseFloat(dollar.innerHTML.substr(1, dollar.innerHTML.length));
+  amount += getPrice(obj);
 
-    let text = document.createElement("div");
-    text.innerHTML = "x1";
-    text.setAttribute("class", "fixed cantidad")
+  count.innerHTML = "x" + num;
+  dollar.innerHTML = "$" + amount.toFixed(2);
+  node.setAttribute("price", itemP + getPrice(obj));
+}
 
-    let dollar = document.createElement("div");
-    dollar.innerHTML = "$" + getPrice(obj).toFixed(2);
-    dollar.setAttribute("class", "fixed dolar")
-
-    let inputDiv = document.createElement("div");
-    let icono = document.createElement("i");
-
-    icono.setAttribute("class", "fas fa-times");
-    icono.onclick = function () { clearCell(newDiv, category, getPrice(obj)); };
-    inputDiv.setAttribute("class", "fixer")
-  
-    newDiv.appendChild(text);
-    newDiv.appendChild(dollar);
-    newDiv.appendChild(inputDiv);
-    div.appendChild(newDiv);
-
-    switch (category) {
-      case "drink":
-        drinkIdx++;
-        break;
-      case "breakfast":
-        breakfastIdx++;
-        break;
-      case "lunch":
-        lunchIdx++;
-        break;
-      case "dinner":
-        dinnerIdx++;
-        break;
-      case "sweet":
-        sweetIdx++;
-        break;
-    }
-  } else {
-    let index;
-    for (i = 0; i < div.childNodes.length; i++) {
-      if (div.childNodes[i].style.backgroundImage == srcImg) {
-        index = i;
-      }
-    }
-    let node = div.childNodes[index];
-    let itemP = parseFloat(node.getAttribute("price"));
-    let count = node.firstElementChild;
-    let num = parseInt(count.innerHTML.substr(1, count.innerHTML.length)) + 1;
-
-    let dollar = count.nextElementSibling;
-    let amount = parseFloat(dollar.innerHTML.substr(1, dollar.innerHTML.length));
-    amount += getPrice(obj);
-
-    count.innerHTML = "x" + num;
-    dollar.innerHTML = "$" + amount.toFixed(2);
-    node.setAttribute("price", itemP + getPrice(obj));
+function incrementarIndiceCategoria(category) {
+  switch (category) {
+    case "drink":
+      drinkIdx++;
+      break;
+    case "breakfast":
+      breakfastIdx++;
+      break;
+    case "lunch":
+      lunchIdx++;
+      break;
+    case "dinner":
+      dinnerIdx++;
+      break;
+    case "sweet":
+      sweetIdx++;
+      break;
   }
-  
-};
+}
 
-
-
-/* detecta un elemento de la columna
-   * si el artículo está apilado (es decir, su atributo de precio es mayor que el precio del artículo)
-   * entonces la función disminuye el precio por el precio del artículo hasta que el precio base permanece
+/* Detecta un elemento de la columna
+   * Si el artículo está apilado (es decir, su atributo de precio es mayor que el precio del artículo)
+   * Entonces la función disminuye el precio por el precio del artículo hasta que el precio base permanece
    * 
-   * si la imagen no está apilada
-   * la función elimina la imagen, disminuye el índice de categoría,
+   * Si la imagen no está apilada
+   * La función elimina la imagen, disminuye el índice de categoría,
    * y actualiza el tabIndex para cada imagen
    */
 
 function deleteItem(obj, category, price) {
-  let idx = obj.tabIndex;
+  // Obtenemos el contenedor "div" para la categoría específica
   let div = document.getElementById(category);
-  let nodes = div.childNodes;
-  let itemP = parseFloat(nodes[idx].getAttribute("price")).toFixed(2);
+  // Obtenemos el elemento de la columna específica
+  let item = div.childNodes[obj.tabIndex];
 
+  // Obtenemos el precio del elemento
+  let itemP = parseFloat(item.getAttribute("price")).toFixed(2);
+
+  // Revisamos si el precio del elemento es mayor al precio a eliminar
   if (itemP > price) {
-    nodes[idx].setAttribute("price", itemP - price);
-    let count = nodes[idx].firstElementChild;
-    let dollar = count.nextElementSibling;
-    let num = parseInt(count.textContent.substring(1)) - 1;
-    let amount = parseFloat(dollar.textContent.substring(1));
-    amount -= price;
+      // Actualizamos el atributo de precio del elemento
+      updateItemPriceAttribute(item, itemP, price);
+  } else {
+      // Si el precio del elemento es menor o igual al precio a eliminar, eliminamos el elemento
+      calculatePriceAfterRemoval(price);
+      div.removeChild(item);
+      // Actualizamos los índices de tabulación para los elementos restantes
+      for (let i = obj.tabIndex; i < div.childNodes.length; i++) {
+          div.childNodes[i].tabIndex = i;
+      }
 
-    count.textContent = "x" + num;
-    dollar.textContent = "$" + amount.toFixed(2);
-    } else {
-    calculatePriceAfterRemoval(price)
-    div.removeChild(nodes[idx])
-    for (i = idx; i < nodes.length; i++) {
-      nodes[i].tabIndex = i;
-    }
-
-    switch (category) {
-      case "drink":
-        drinkIdx--;
-        break;
-      case "breakfast":
-        breakfastIdx--;
-        break;
-      case "lunch":
-        lunchIdx--;
-        break;
-      case "dinner":
-        dinnerIdx--;
-        break;
-      case "sweet":
-        sweetIdx--;
-        break;
-    }
+      // Actualizamos el índice para la categoría específica
+      updateIndexForCategory(category);
   }
-  
-};
+}
+
+// Actualiza el atributo "price" del elemento, restando el valor de "price" del valor actual.
+function updateItemPriceAttribute(item, itemP, price) {
+  item.setAttribute("price", itemP - price);
+  // Get the item's count and dollar elements
+  let count = item.firstElementChild;
+  let dollar = count.nextElementSibling;
+  // Update the item's count and dollar elements
+  let num = parseInt(count.textContent.substring(1)) - 1;
+  let amount = parseFloat(dollar.textContent.substring(1));
+  amount -= price;
+
+  count.textContent = "x" + num;
+  dollar.textContent = "$" + amount.toFixed(2);
+}
+
+// Actualiza los índices de categoría en función de la categoría especificada. 
+function updateIndexForCategory(category) {
+  switch (category) {
+    case "drink":
+      drinkIdx--;
+      break;
+    case "breakfast":
+      breakfastIdx--;
+      break;
+    case "lunch":
+      lunchIdx--;
+      break;
+    case "dinner":
+      dinnerIdx--;
+      break;
+    case "sweet":
+      sweetIdx--;
+      break;
+  }
+}
 
 // Caja modal
-function toggleModal() {
-  modal.style.display = modal.style.display === "block" ? "none" : "block";
-}
-
-let modal = document.getElementById("myModal");
-let btn = document.getElementById("myBtn");
-let span = document.getElementsByClassName("close")[0];
-
-btn.onclick = toggleModal;
-span.onclick = toggleModal;
-window.onclick = function(event) {
-  if (event.target == modal) {
-    toggleModal();
+function Modal() {
+  const modal = document.getElementById("myModal");
+  const openButton = document.getElementById("myBtn");
+  const closeButton = document.querySelector(".close");
+  
+  function toggle() {
+  modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
   }
-}
+  
+  openButton.addEventListener("click", toggle);
+  closeButton.addEventListener("click", toggle);
+  window.addEventListener("click", event => {
+  if (event.target === modal) toggle();
+  });
+  }
+  
+  Modal();
