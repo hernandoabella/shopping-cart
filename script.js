@@ -312,48 +312,30 @@ function incrementarIndiceCategoria(category) {
    */
 
 function deleteItem(obj, category, price) {
-  // Obtenemos el contenedor "div" para la categoría específica
   let div = document.getElementById(category);
-  // Obtenemos el elemento de la columna específica
   let item = div.childNodes[obj.tabIndex];
-
-  // Obtenemos el precio del elemento
   let itemP = parseFloat(item.getAttribute("price")).toFixed(2);
-
-  // Revisamos si el precio del elemento es mayor al precio a eliminar
-  if (itemP > price) {
-      // Actualizamos el atributo de precio del elemento
-      updateItemPriceAttribute(item, itemP, price);
-  } else {
-      // Si el precio del elemento es menor o igual al precio a eliminar, eliminamos el elemento
-      calculatePriceAfterRemoval(price);
-      div.removeChild(item);
-      // Actualizamos los índices de tabulación para los elementos restantes
-      for (let i = obj.tabIndex; i < div.childNodes.length; i++) {
-          div.childNodes[i].tabIndex = i;
-      }
-
-      // Actualizamos el índice para la categoría específica
-      updateIndexForCategory(category);
-  }
+  itemP > price ? updateItemPriceAttribute(item, itemP, price) : removeItem(item, div, obj);
 }
 
-// Actualiza el atributo "price" del elemento, restando el valor de "price" del valor actual.
 function updateItemPriceAttribute(item, itemP, price) {
   item.setAttribute("price", itemP - price);
-  // Get the item's count and dollar elements
   let count = item.firstElementChild;
   let dollar = count.nextElementSibling;
-  // Update the item's count and dollar elements
   let num = parseInt(count.textContent.substring(1)) - 1;
   let amount = parseFloat(dollar.textContent.substring(1));
-  amount -= price;
-
   count.textContent = "x" + num;
-  dollar.textContent = "$" + amount.toFixed(2);
+  dollar.textContent = "$" + (amount - price).toFixed(2);
 }
 
-// Actualiza los índices de categoría en función de la categoría especificada. 
+function removeItem(item, div, obj) {
+  div.removeChild(item);
+  for (let i = obj.tabIndex; i < div.childNodes.length; i++) {
+    div.childNodes[i].tabIndex = i;
+  }
+  updateIndexForCategory(category);
+}
+
 function updateIndexForCategory(category) {
   switch (category) {
     case "drink":
@@ -375,13 +357,13 @@ function updateIndexForCategory(category) {
 }
 
 // Caja modal
-function Modal() {
+function modal() {
   const modal = document.getElementById("myModal");
   const openButton = document.getElementById("myBtn");
   const closeButton = document.querySelector(".close");
   
   function toggle() {
-  modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+    modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
   }
   
   openButton.addEventListener("click", toggle);
@@ -391,4 +373,4 @@ function Modal() {
   });
   }
   
-  Modal();
+  modal();
